@@ -7,11 +7,9 @@ import io.realm.RealmObject;
 
 public class FlickrResponse extends RealmObject {
 
-    //@ColumnInfo()
     @Expose @SerializedName("photos")
     private Content photos;
 
-    //@ColumnInfo()
     @Expose @SerializedName("stat")
     private String status;
 

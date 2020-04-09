@@ -18,6 +18,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
 public class BaseViewModel extends ViewModel {
 
     private int mRVColumnCount = 2;
+    private int mRVCurrentPosition=0;
 
     private int mPageNumber = 1;
     private String mSearchTerm;
@@ -61,27 +62,20 @@ public class BaseViewModel extends ViewModel {
     }
 
     private void loadMore(String searchTerm, int pageNumber){
-        log("VM load more, page = " + pageNumber);
         mStateList.postLoading();
         mIsLoading = true;
         Disposable d = MainRepo.INSTANCE.getPhotosResponse(searchTerm, pageNumber)
                 .subscribe(response -> {
-                    //log("response = " );
                     if (response!=null){
-                        //log("response not null");
-                        //log(response.getPhotos().getPageNumber()+"");
-                        //log("gson=" + new Gson().toJson(response.getPhotos().getPhotosList().size()));
                         List<Photo> l = response.getPhotos().getPhotosList();
                         mAllPhotoList.addAll(l);
                         increasePageNumber();
                         mStateList.postSuccess(l);
                     }
                     mIsLoading = false;
-                    new Handler().postDelayed(() -> mStateList.postComplete(), 100);//todo debug why?
+                    new Handler().postDelayed(() -> mStateList.postComplete(), 100);
                 }, err -> {
-                    //log("error");
                     mStateList.postError(err);
-                    //mStateList.postComplete();
                     new Handler().postDelayed(() -> mStateList.postComplete(), 100);
                     mIsLoading = false;
                 });

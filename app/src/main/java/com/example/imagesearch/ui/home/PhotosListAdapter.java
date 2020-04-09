@@ -35,18 +35,11 @@ public class PhotosListAdapter extends RecyclerView.Adapter<PhotosListAdapter.Ph
 
     private List<Photo> mList;
 
-    /*public interface ItemClickListener{
-        void onItemClick(View v, Photo photo);
-    }*/
-
     private final ViewHolderListener mViewHolderListener;
     private final RequestManager mRequestManager;
 
-    //private ItemClickListener itemClickListener;
-
     public PhotosListAdapter(Fragment fragment, List<Photo> l){
         mList = l;
-        //itemClickListener = listener;
         this.mViewHolderListener = new ViewHolderListenerImpl(fragment);
         mRequestManager = Glide.with(fragment);
     }
@@ -54,7 +47,6 @@ public class PhotosListAdapter extends RecyclerView.Adapter<PhotosListAdapter.Ph
     public void notifyItemRangeInserted(List<Photo> items){
         int endIndex = mList.size()-1;
         if (endIndex<0) endIndex = 0;
-        //mList.addAll(items);
         notifyItemRangeInserted(endIndex+1, items.size());
     }
 
@@ -91,8 +83,6 @@ public class PhotosListAdapter extends RecyclerView.Adapter<PhotosListAdapter.Ph
                 // Let the listener start the ImagePagerFragment.
                 viewHolderListener.onItemClicked(v, getAdapterPosition());
                 //Router.INSTANCE.showFullPhotoScreen(getAdapterPosition(), itemView);
-                /*if (itemClickListener!=null)
-                    itemClickListener.onItemClick(v, mList.get(getAdapterPosition()));*/
             });
         }
 
@@ -104,7 +94,6 @@ public class PhotosListAdapter extends RecyclerView.Adapter<PhotosListAdapter.Ph
         }
 
         void setImage(final int adapterPosition) {
-            // Load the image with Glide to prevent OOM error when the image drawables are very large.
             requestManager
                     .load(mList.get(adapterPosition).getUrl(Photo.ImageSize.SMALL))
                     .listener(new RequestListener<Drawable>() {
@@ -123,34 +112,6 @@ public class PhotosListAdapter extends RecyclerView.Adapter<PhotosListAdapter.Ph
                         }
                     })
                     .into(imageView);
-        }
-
-        void bind2(Photo photo){
-            imageView.setTransitionName(mList.get(getAdapterPosition()).getUrl(Photo.ImageSize.SMALL));
-            Picasso p = Picasso.get();
-                    p.setIndicatorsEnabled(true);
-                    p.load(photo.getUrl(Photo.ImageSize.SMALL))
-                    .placeholder(R.drawable.placeholder)
-                    .error(R.drawable.error)
-                    //.networkPolicy(NetworkPolicy.OFFLINE)
-                    .into(imageView, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            //log("offline success");
-                            mViewHolderListener.onLoadCompleted(imageView, getAdapterPosition());
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-                            mViewHolderListener.onLoadCompleted(imageView, getAdapterPosition());
-                            //log("online");
-                            //Picasso.get()
-                            /*p.load(photo.getUrl(Photo.ImageSize.SMALL))
-                                    .placeholder(R.drawable.placeholder)
-                                    .error(R.drawable.error)
-                                    .into(imageView);*/
-                        }
-                    });
         }
     }
 

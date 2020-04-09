@@ -52,17 +52,14 @@ public class HomeFragment extends Fragment {
     private Observer<Resource> mListObserver = (response) -> {
         switch (response.getStatus()){
             case ERROR: {
-                log("home-observer-err=" + response.getError().toString());
                 showToast(response.getError().toString());
             }
             break;
             case SUCCESS: {
                 List<Photo> newList = (List<Photo>) response.getData();
-                //log(newList.toString());
                 if (newList.isEmpty()) //UI logic
                     showToast("Nothing found");
                 mListAdapter.notifyItemRangeInserted(newList);
-                log("frag adapter size  = " + mListAdapter.getItemCount());
             }
             break;
             case LOADING: {
@@ -92,7 +89,8 @@ public class HomeFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         initUi(view);
         observeData();
@@ -109,25 +107,20 @@ public class HomeFragment extends Fragment {
                 2,
                 GridLayoutManager.VERTICAL,
                 false);
-        mPhotosListView.setLayoutManager(mLayoutManager); // determine item width at runtime
+        mPhotosListView.setLayoutManager(mLayoutManager);
         mListAdapter = new PhotosListAdapter(this, mViewModel.getAllPhotoList());
         mPhotosListView.setAdapter(mListAdapter);
-        //mPhotosListView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mPhotosListView.addItemDecoration(new ItemDecorationAlbumColumns(dpToPx(3), 2));
-        //mPhotosListView.addItemDecoration(new MediaSpaceDecoration(dpToPx(3)));
     }
 
     private void addScrollListener(){
-        //todo what to do when RV size less than screen
         mPhotosListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                //dy < 0 //scroll up
                 if (dy>0){ //scroll down
                     if (!mPhotosListView.canScrollVertically(SCROLL_DIRECTION_DOWN) &&
                             !mViewModel.isLoading()){
-                        log("on scroll called");
                         mViewModel.loadMore();
                     }
                 }
@@ -210,7 +203,6 @@ public class HomeFragment extends Fragment {
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //showToast("done");
                 if (query.isEmpty())
                     return false;
                 mViewModel.loadPhotoList(query);
@@ -219,17 +211,14 @@ public class HomeFragment extends Fragment {
             }
             @Override
             public boolean onQueryTextChange(String newText) {
-                //adapter.getFilter().filter(newText);
                 return false;
             }
         });
         super.onCreateOptionsMenu(menu, inflater);
-        //return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        //return super.onOptionsItemSelected(item);
         int id = item.getItemId();
         switch (id){
             case R.id.two:
@@ -246,33 +235,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void showPopupMenu(Context context, View anchorView){
-        PopupMenu popup = new PopupMenu(context, anchorView);
-        popup.inflate(R.menu.options);
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.two:
-                        changeLayoutManagerColumns(2);
-                        return true;
-                    case R.id.three:
-                        changeLayoutManagerColumns(3);
-                        return true;
-                    case R.id.four:
-                        changeLayoutManagerColumns(4);
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
-        //displaying the popup
-        popup.show();
-    }
-
     private void changeLayoutManagerColumns(int noOfColumns){
-        //todo save #col in VM
         mPhotosListView.addItemDecoration(new ItemDecorationAlbumColumns(dpToPx(3), noOfColumns));
         mLayoutManager.setSpanCount(noOfColumns);
     }

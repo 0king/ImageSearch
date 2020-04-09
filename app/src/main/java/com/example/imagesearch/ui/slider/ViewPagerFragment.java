@@ -64,31 +64,12 @@ public class ViewPagerFragment extends Fragment {
             mPager.setCurrentItem(MainActivity.currentPosition);
         });
 
-        /*if (savedInstanceState==null){
-            new Handler().post(() -> {
-                //adapter.createFragment(mItemPosition);
-                mPager.setCurrentItem(mItemPosition, false);
-            });
-        }*/
-        // Set the current position and add a listener that will update the selection coordinator when
-        // paging the images.
-        //mPager.setCurrentItem(MainActivity.currentPosition);
         mPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 MainActivity.currentPosition = position;
             }
         });
-
-        /*mPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                //todo make network call
-                MainActivity.currentPosition = position;
-            }
-        });*/
-        //log("2nd=" + mViewModel.getAllPhotoList().size());
 
         prepareSharedElementTransition();
 
@@ -130,38 +111,6 @@ public class ViewPagerFragment extends Fragment {
                     }
                 });
     }
-
-    /**
-     * Prepares the shared element transition from and back to the grid fragment.
-     */
-    /*private void prepareSharedElementTransition() {
-        Transition transition =
-                TransitionInflater.from(getContext())
-                        .inflateTransition(R.transition.image_shared_element_transition);
-        setSharedElementEnterTransition(transition);
-
-        // A similar mapping is set at the GridFragment with a setExitSharedElementCallback.
-        setEnterSharedElementCallback(
-                new SharedElementCallback() {
-                    @Override
-                    public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                        // Locate the image view at the primary fragment (the ImageFragment that is currently
-                        // visible). To locate the fragment, call instantiateItem with the selection position.
-                        // At this stage, the method will simply return the fragment at the position and will
-                        // not create a new one.
-                        Fragment currentFragment  = mAdapter.createFragment(MainActivity.currentPosition);
-                        //        = (Fragment) mPager.getAdapter().
-                        //.instantiateItem(viewPager, MainActivity.currentPosition);
-                        View view = currentFragment.getView();
-                        if (view == null) {
-                            return;
-                        }
-
-                        // Map the first shared element name to the child ImageView.
-                        sharedElements.put(names.get(0), view.findViewById(R.id.ivPhoto));
-                    }
-                });
-    }*/
 
     void log(String msg){
         Log.d("durga", msg);

@@ -56,42 +56,12 @@ public class FullPhotoFragment extends Fragment {
         return v;
     }
 
-    private void bindData2(){
-        Picasso.get().load(imageUrl)
-                .placeholder(R.drawable.placeholder)
-                .error(R.drawable.error)
-                .into(imageView, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        // The postponeEnterTransition is called on the parent ImagePagerFragment, so the
-                        // startPostponedEnterTransition() should also be called on it to get the transition
-                        // going in case of a failure.
-                        getParentFragment().startPostponedEnterTransition();
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-                        // The postponeEnterTransition is called on the parent ImagePagerFragment, so the
-                        // startPostponedEnterTransition() should also be called on it to get the transition
-                        // going when the image is ready.
-                        getParentFragment().startPostponedEnterTransition();
-
-                        /*String url = imageUrl.substring(0, imageUrl.length()-5) + "q.jpg";
-                        Picasso.get().load(url)
-                                .placeholder(R.drawable.placeholder)
-                                .error(R.drawable.error)
-                                .into(imageView);*/
-                    }
-                });
-    }
-
     private void initUi(View v){
         imageView = v.findViewById(R.id.ivPhoto);
         imageView.setTransitionName(imageUrl);
     }
 
     private void bindData(){
-        // Load the image with Glide to prevent OOM error when the image drawables are very large.
         Glide.with(this)
                 .load(imageUrl)
                 .listener(new RequestListener<Drawable>() {

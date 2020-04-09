@@ -37,14 +37,14 @@ public enum Router {
             fragment = new HomeFragment();
         }
 
-        Transition changeTransform = TransitionInflater.from(c).
+        /*Transition changeTransform = TransitionInflater.from(c).
                 inflateTransition(R.transition.change_image_transform);
         Transition explodeTransform = TransitionInflater.from(c).
                 inflateTransition(android.R.transition.move);
 
         // Setup exit transition on first fragment
         fragment.setSharedElementReturnTransition(changeTransform);
-        fragment.setExitTransition(explodeTransform);
+        fragment.setExitTransition(explodeTransform);*/
 
         fm.beginTransaction()
                 .replace(R.id.main_container, fragment, FRAGMENT_HOME)
@@ -77,8 +77,8 @@ public enum Router {
         //fragmentOne.setExitTransition(explodeTransform);
 
         // Setup enter transition on second fragment
-        fragment.setSharedElementEnterTransition(changeTransform);
-        fragment.setEnterTransition(explodeTransform);
+        //fragment.setSharedElementEnterTransition(changeTransform);
+        //fragment.setEnterTransition(explodeTransform);
 
         // Find the shared element (in Fragment A)
         //ImageView ivProfile = (ImageView) findViewById(R.id.ivProfile);

@@ -12,26 +12,20 @@ import io.realm.annotations.PrimaryKey;
 public class Content extends RealmObject {
 
     @PrimaryKey
-    //@ColumnInfo()
     @Expose @SerializedName("page")
     private int pageNumber;
 
-    //@ColumnInfo()
     @Expose @SerializedName("pages")
     private int totalPages;
 
-    //@ColumnInfo()
     @Expose @SerializedName("perpage")
     private int perPage;
 
-    //@ColumnInfo()
     @Expose @SerializedName("total")
     private int total;
 
-    //@ColumnInfo() @TypeConverters(DataTypeConverter.class)
     @Expose @SerializedName("photo")
     private RealmList<Photo> photosList;
-    //private List<Photo> photosList;
 
     //getters
     public int getPageNumber() {
@@ -71,7 +65,4 @@ public class Content extends RealmObject {
         this.total = total;
     }
 
-    /*public void setPhotosList(List<Photo> photosList) {
-        this.photosList = photosList;
-    }*/
 }

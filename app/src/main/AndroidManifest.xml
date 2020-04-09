@@ -16,7 +16,6 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.common.BaseActivity"></activity>
         <activity android:name=".ui.slider.FullPhotoActivity" />
         <activity android:name=".ui.common.MainActivity">
             <intent-filter>

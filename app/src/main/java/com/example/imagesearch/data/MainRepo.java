@@ -65,8 +65,9 @@ public enum MainRepo implements IRepo {
 
     private void saveToRealm(SearchResultModel model){
         Realm r = Realm.getDefaultInstance();
-        r.executeTransactionAsync(realm -> {
+        r.executeTransaction(realm -> {
             realm.insert(model);
+            //log("realm inserted");
         });
     }
 
@@ -83,6 +84,10 @@ public enum MainRepo implements IRepo {
                 //.client(client)
                 .build();
         mFlickrApi = retrofit.create(FlickrApi.class);
+    }
+
+    private void log(String msg){
+        Log.d("durga", msg);
     }
 
 }

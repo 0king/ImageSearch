@@ -96,6 +96,8 @@ public class PhotosListAdapter extends RecyclerView.Adapter<PhotosListAdapter.Ph
         void setImage(final int adapterPosition) {
             requestManager
                     .load(mList.get(adapterPosition).getUrl(Photo.ImageSize.SMALL))
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.error)
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model,

@@ -64,6 +64,8 @@ public class FullPhotoFragment extends Fragment {
     private void bindData(){
         Glide.with(this)
                 .load(imageUrl)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.error)
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable>

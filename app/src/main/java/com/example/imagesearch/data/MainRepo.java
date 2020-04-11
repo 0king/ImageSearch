@@ -38,7 +38,7 @@ public enum MainRepo implements IRepo {
                     emitter.onSuccess(fs);
                 }
                 else {
-                    emitter.onComplete(); return;
+                    emitter.onComplete();
                 }
             }
         });
@@ -67,7 +67,6 @@ public enum MainRepo implements IRepo {
         Realm r = Realm.getDefaultInstance();
         r.executeTransaction(realm -> {
             realm.insert(model);
-            //log("realm inserted");
         });
     }
 
